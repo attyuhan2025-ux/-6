@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建國國小 網路檢核表單</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --primary-hover: #45a049;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: 'Segoe UI', "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .optional-mark {
+            font-size: 0.85em;
+            color: #888;
+            font-weight: normal;
+        }
+
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>建國國小 網路檢核表單</h2>
+    <form id="networkForm">
+        
+        <!-- 1. 身分 -->
+        <div class="form-group">
+            <label for="role">1. 身分</label>
+            <select id="role" required>
+                <option value="" disabled selected>請選擇身分</option>
+                <option value="導師">1. 導師</option>
+                <option value="科任">2. 科任</option>
+                <option value="主任">3. 主任</option>
+                <option value="組長">4. 組長</option>
+            </select>
+        </div>
+
+        <!-- 2. 姓名 -->
+        <div class="form-group">
+            <label for="name">2. 姓名</label>
+            <input type="text" id="name" placeholder="請輸入您的姓名" required>
+        </div>
+
+        <!-- 3. 教室位置 -->
+        <div class="form-group">
+            <label>3. 教室位置</label>
+            <div class="grid-row">
+                <select id="building" required>
+                    <option value="" disabled selected>哪一棟</option>
+                    <option value="A棟">1. A棟</option>
+                    <option value="B棟">2. B棟</option>
+                    <option value="C棟">3. C棟</option>
+                    <option value="D棟">4. D棟</option>
+                    <option value="E棟">5. E棟</option>
+                    <option value="活動中心">6. 活動中心</option>
+                    <option value="網球場">7. 網球場</option>
+                    <option value="廚房">8. 廚房</option>
+                    <option value="游泳池">9. 游泳池</option>
+                    <option value="警衛室">10. 警衛室</option>
+                </select>
+                <input type="text" id="roomNumber" placeholder="教室編號 (例:301)" required>
+            </div>
+        </div>
+
+        <!-- 4. 網路自評 -->
+        <div class="form-group">
+            <label>4. 網路狀況自評</label>
+            <div class="grid-row">
+                <div>
+                    <label style="font-size:0.9em; color:#666;">有線網路</label>
+                    <select id="wiredStatus" required>
+                        <option value="良">1. 良</option>
+                        <option value="正常" selected>2. 正常</option>
+                        <option value="不良">3. 不良</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:0.9em; color:#666;">無線網路</label>
+                    <select id="wirelessStatus" required>
+                        <option value="良">1. 良</option>
+                        <option value="正常" selected>2. 正常</option>
+                        <option value="不良">3. 不良</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 補充說明 (新增) -->
+        <div class="form-group">
+            <label for="note">5. 補充說明 <span class="optional-mark">(選填)</span></label>
+            <textarea id="note" placeholder="若有其他網路問題，請在此描述..."></textarea>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="validateAndSubmit()">
+            <span id="btnText">檢視無誤並送出</span>
+            <div id="loader" class="loader"></div>
+        </button>
+    </form>
+</div>
+
+<script>
+    // ★★★ 請在此處貼上您的 Google Apps Script 網頁應用程式網址 ★★★
+    const googleScriptUrl = "https://script.google.com/macros/s/AKfycbzRsHqz_QgGpltAp6eu5_o0HmL1pyxBb2bjCpqd7Yrn4PBb-zsYKw9XTG5-FQ_1qK3K/exec"; 
+
+    function validateAndSubmit() {
+        const form = document.getElementById('networkForm');
+        
+        // 1. 基礎驗證
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        // 2. 收集資料
+        const formData = {
+            role: document.getElementById('role').value,
+            name: document.getElementById('name').value,
+            building: document.getElementById('building').value,
+            room: document.getElementById('roomNumber').value,
+            wired: document.getElementById('wiredStatus').value,
+            wireless: document.getElementById('wirelessStatus').value,
+            note: document.getElementById('note').value // 取得補充說明
+        };
+
+        // 3. 處理顯示訊息 (如果沒填寫補充說明，顯示 "無")
+        const noteDisplay = formData.note.trim() === "" ? "無" : formData.note;
+
+        // 4. 彈出確認視窗
+        const confirmMessage = 
+            `請確認以下資料是否正確：\n\n` +
+            `【身分】：${formData.role}\n` +
+            `【姓名】：${formData.name}\n` +
+            `【位置】：${formData.building} / ${formData.room}\n` +
+            `【有線網路】：${formData.wired}\n` +
+            `【無線網路】：${formData.wireless}\n` +
+            `【補充說明】：${noteDisplay}\n\n` +
+            `確認無誤請按「確定」，若需修改請按「取消」。`;
+
+        if (confirm(confirmMessage)) {
+            submitToGoogleSheet(formData);
+        }
+    }
+
+    function submitToGoogleSheet(data) {
+        if (googleScriptUrl.includes("貼上您的")) {
+            alert("錯誤：請先在程式碼中設定 Google Script 網址！");
+            return;
+        }
+
+        const btn = document.querySelector('.btn-submit');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+
+        // 切換按鈕狀態
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        loader.style.display = 'block';
+
+        // 發送資料
+        fetch(googleScriptUrl, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            mode: 'no-cors', 
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(() => {
+            alert('✅ 填報完成！資料已送出。');
+            document.getElementById('networkForm').reset();
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('❌ 傳送失敗，請檢查網路連線或聯繫資訊組。');
+        }).finally(() => {
+            // 復原按鈕
+            btn.disabled = false;
+            btnText.style.display = 'inline';
+            loader.style.display = 'none';
+        });
+    }
+</script>
+
+</body>
+</html>
